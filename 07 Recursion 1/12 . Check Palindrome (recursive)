@@ -1,0 +1,43 @@
+Check Palindrome (recursive)
+Send Feedback
+Check whether a given String S is a palindrome using recursion. Return true or false.
+Input Format :
+String S
+Output Format :
+'true' or 'false'
+Constraints :
+0 <= |S| <= 1000
+where |S| represents length of string S.
+Sample Input 1 :
+racecar
+Sample Output 1:
+true
+Sample Input 2 :
+ninja
+Sample Output 2:
+false
+
+bool checkPalindrome(char input[]) {
+    // Write your code here
+    int n=0;
+	for(int i=0;input[i]!='\0';i++)
+    {
+        n++;
+    }
+    int end = n-1;
+    if(n==1 || n==0)
+    {
+        return true;
+    }
+    if(input[0]==input[end])
+    {
+        input[end]='\0';
+        return (checkPalindrome(input+1));
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
