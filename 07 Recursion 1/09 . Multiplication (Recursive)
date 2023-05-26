@@ -19,3 +19,16 @@ Sample Input 2 :
 0
 Sample Output 2 :
 0
+
+
+int multiplyNumbers(int m, int n) {
+    // Write your code here
+    int k=0;
+    if(n==0)
+    {return k;}
+    k =multiplyNumbers(m,n-1);
+    k=k+m;
+    return k;
+}
+
+
