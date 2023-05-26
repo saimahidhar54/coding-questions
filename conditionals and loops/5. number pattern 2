@@ -1,0 +1,59 @@
+Number Pattern 2
+Send Feedback
+Print the following pattern
+Pattern for N = 4
+    1
+   23
+  345
+ 4567
+The dots represent spaces.
+
+
+
+Input Format :
+N (Total no. of rows)
+Output Format :
+Pattern in N lines
+Sample Input :
+5
+Sample Output :
+    1
+   23
+  345
+ 4567
+56789
+
+
+The dots represent spaces.
+
+#include<iostream>
+using namespace std;
+
+
+int main(){
+
+       int n=0,i=0,j=0,k=0,lol=0,lmao=0;
+    cin >> n;
+    i=1;
+    while(i<=n)
+    {
+        lol=1;
+        lmao=1;
+        k=n-i;
+        j=i;
+        while(lol<=k)
+        {
+            cout << " ";
+            lol++;
+        }
+        while(lmao <= i)
+        {
+            cout << j ;
+            j++;
+            lmao++;
+        }
+        cout << endl;
+        i++;
+    }
+  
+}
