@@ -1,0 +1,45 @@
+Trim Spaces
+Send Feedback
+Given an input string S that contains multiple words, you need to remove all the spaces present in the input string.
+There can be multiple spaces present after any word.
+Input Format :
+ String S
+Output Format :
+Updated string
+Constraints :
+1 <= Length of string S <= 10^6
+Sample Input :
+abc def g hi
+Sample Output :
+abcdefghi
+
+void trimSpaces(char input[]) {
+    // Write your code here
+    int n,i,k;
+    /*for(i=0;input[i] != '\0';i++)
+    {
+        n++;
+    }*/
+    i=0;
+    k=0;
+    char output[50000];
+    while(input[i] !='\0' )
+    {
+        n++;
+        if(input[i] == ' ')
+        {
+            i++;
+            continue;
+        }
+        else 
+        {
+            output[k]=input[i];
+            k++;
+            i++;
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+        input[i]=output[i];
+    }
+}
