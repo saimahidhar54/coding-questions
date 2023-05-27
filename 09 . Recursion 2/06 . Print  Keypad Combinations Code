@@ -1,0 +1,110 @@
+Print Keypad Combinations Code
+Send Feedback
+Given an integer n, using phone keypad find out and print all the possible strings that can be made using digits of input n.
+Note : The order of strings are not important. Just print different strings in new lines.
+Input Format :
+Integer n
+Output Format :
+All possible strings in different lines
+Constraints :
+1 <= n <= 10^6
+Sample Input:
+23
+Sample Output:
+ad
+ae
+af
+bd
+be
+bf
+cd
+ce
+cf
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+void keypad(int num,string output)
+{
+    int k=num,x=1,c=500;
+    if(num==0)
+    {
+        cout << output <<endl;
+        return;
+    }
+    while(k !=0)
+    {
+        c=k%10;
+        if(c==0 || c==1)
+        {
+            cout << output << endl;
+            return;
+        }
+        k=k/10;
+        x=x*10;
+        
+    }
+    x=x/10;
+    if(num/x==1)
+    {
+        keypad(num%x,output);
+    }
+    if(num/x==2)
+    {
+    keypad(num%x,output+"a");
+        keypad(num%x,output+"b");
+        keypad(num%x,output+"c");
+        
+        }
+    if(num/x==3)
+    {
+    keypad(num%x,output+"d");
+        keypad(num%x,output+"e");
+        keypad(num%x,output+"f");
+        
+        }if(num/x==4)
+    {
+    keypad(num%x,output+"g");
+        keypad(num%x,output+"h");
+        keypad(num%x,output+"i");
+        
+        }if(num/x==5)
+    {
+    keypad(num%x,output+"j");
+        keypad(num%x,output+"k");
+        keypad(num%x,output+"l");
+        
+        }if(num/x==6)
+    {
+    keypad(num%x,output+"m");
+        keypad(num%x,output+"n");
+        keypad(num%x,output+"o");
+        
+        }if(num/x==7)
+    {
+    keypad(num%x,output+"p");
+        keypad(num%x,output+"q");
+        keypad(num%x,output+"r");
+        keypad(num%x,output+"s");
+        
+        }if(num/x==8)
+    {
+    keypad(num%x,output+"t");
+        keypad(num%x,output+"u");
+        keypad(num%x,output+"v");
+        
+        }if(num/x==9)
+    {
+    keypad(num%x,output+"w");
+        keypad(num%x,output+"x");
+        keypad(num%x,output+"y");
+        keypad(num%x,output+"z");
+        
+        }
+    
+}
+void printKeypad(int num){
+    string output="";
+    keypad(num,output);
+}
