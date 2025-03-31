@@ -1,0 +1,96 @@
+Problem statement
+Given a binary search tree and an integer S, find pair of nodes in the BST which sum to S. You can use extra space of the order of O(log n).
+
+Note:
+1. Assume BST contains all unique elements.
+2. In a pair, print the smaller element first.
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints:
+Time Limit: 1 second   
+Sample Input 1:
+8 5 10 2 6 -1 -1 -1 -1 -1 7 -1 -1
+12
+Sample Output 1:
+2 10
+5 7
+
+
+/**********************************************************
+
+	Following is the Binary Tree Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public: 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this->data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+	
+***********************************************************/
+BinaryTreeNode<int> * sarchu(BinaryTreeNode<int>* root,int k)
+{
+	if(root==NULL)
+	{
+		return NULL;
+	}
+	if(root->data==k)
+	{
+		return root;
+	}
+	else if(k< root->data)
+	{
+		return sarchu(root->left,k);
+	}
+	else
+	{
+		return sarchu(root->right,k);
+	}
+}
+void leftright(BinaryTreeNode <int> * root,int s,BinaryTreeNode<int>* right)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	BinaryTreeNode<int>* h= sarchu(right,s-root->data);
+	if(h)
+	{
+		cout << root->data <<" "<< h->data<< endl;
+	}
+	leftright(root->left,s,right);
+	leftright(root->right,s,right);
+}
+void printNodesSumToS(BinaryTreeNode<int> *root, int s) {
+    // Write your code here
+	if(root==NULL)
+	{
+		return;
+	}
+	int k= (s-root->data);
+	if(k> root->data)
+	{
+		BinaryTreeNode<int> * z = sarchu(root->right,k);
+		if(z)
+		{
+			cout << root->data << " "<< k<< endl;
+		}
+	}
+	else if(k< root->data)
+	{
+		BinaryTreeNode<int> *j=sarchu(root->left,k);
+		if(j)
+		{
+			cout << k <<" "<< root->data<< endl;
+		}
+	}
+	printNodesSumToS(root->left,s);
+	printNodesSumToS(root->right, s);
+	leftright(root->left,s,root->right);
+}
