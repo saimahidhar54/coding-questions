@@ -1,0 +1,161 @@
+Problem statement
+Given a binary tree and an integer S, print all the pair of nodes whose sum equals S.
+
+Note:
+
+1. Assume the given binary tree contains all unique elements.
+2. In a pair, print the smaller element first. Order of different pairs doesn't matter.
+Detailed explanation ( Input/output format, Notes, Images )
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The data of the nodes of the tree is separated by space. If any node does not have a left or right child, take -1 in its place. Since -1 is used as an indication whether the left or right nodes exist, therefore, it will not be a part of the data of any node.
+The following line of input contains an integer, that denotes the value of S.
+Output Format :
+Print each pair in a new line, as described in the task. 
+Constraints:
+Time Limit: 1 sec
+1 ≤ Number of Nodes ≤ 10^5
+1 ≤ S ≤ 10^6
+Sample Input 1:
+5 10 6 2 3 -1 -1 -1 -1 -1 9 -1 -1
+15
+
+
+Sample Output 1:
+5 10
+6 9
+
+/**********************************************************
+	Following is the Binary Tree Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public : 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this -> data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+
+***********************************************************/
+/*BinaryTreeNode<int> * sarchu(BinaryTreeNode<int> *root,int d)
+{
+	if(root==NULL)
+	{
+		return NULL;
+	}
+	if(root->data==d)
+	{
+		return root;
+	}
+	if(root->left && root->left->data==d)
+	{
+     return root->left;
+	}
+	if(root->right && root->right->data==d)
+	{
+        return root->right;
+	}
+		BinaryTreeNode<int> * k= sarchu(root->left,d);
+		if(!k)
+		{
+			return sarchu(root->right,d);
+		}
+		else
+		{
+			return k;
+		}
+}
+void leftright(BinaryTreeNode <int> * root,int sum,BinaryTreeNode <int> * right)
+{
+	if(root==NULL || right==NULL)
+	{
+		return;
+	}
+	BinaryTreeNode < int> * y=sarchu(right,(sum-root->data));
+	if(y)
+	{
+		if(y->data > root->data)
+		{
+			cout << root->data << " "<< y->data<<endl;
+		}
+		else{
+			cout << y->data<<" "<< root->data<<endl;
+		}
+	}
+		leftright(root->left,sum,right);
+		leftright(root->right,sum,right);
+	return;
+
+}
+*/
+#include <algorithm>
+#include <vector>
+void copi(vector<int> &arr,BinaryTreeNode<int> *root)
+{
+	if(root==NULL)
+	{
+         return ;
+        }
+arr.push_back(root->data);
+	copi(arr,root->left);
+	copi(arr,root->right);
+	return;
+}
+void pairSum(BinaryTreeNode<int> *root, int sum) {
+    // Write your code here
+	vector<int> arr;
+	 copi(arr,root);
+	 int n= arr.size();
+        sort(arr.begin(),arr.end());
+		/*for(int i=0;i<n;i++)
+		{
+			cout << arr[i]<< " ";
+		}*/
+	int i=0,j=n-1;
+	while(i<j)
+	{
+		int h= arr[i]+arr[j];
+		if(h==sum)
+		{
+			cout << arr[i]<<" "<<arr[j]<<endl;
+			i++;
+			j--;
+                } 
+		else if (h>sum)
+				{
+					j--;
+				}
+				else
+				{
+					i++;
+				}
+        }
+
+
+
+
+/*	if(root==NULL)
+	{
+		return;
+	}
+int g=sum-(root->data);
+	BinaryTreeNode<int> *k=sarchu(root,g);
+	if(k && k!=root)
+	{
+			  if(k->data > root->data)
+			  {
+				  cout << root->data <<" "<< k->data<<endl;
+                          } 
+			  else {
+                            cout << k->data << " " << root->data<<endl;
+                          }
+                  }
+                                                  pairSum(root->left,sum);
+						  pairSum(root->right,sum);
+						  leftright(root->left,sum,root->right);*/
+            				}
