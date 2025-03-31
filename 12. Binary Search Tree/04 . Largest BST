@@ -1,0 +1,121 @@
+Problem statement
+Given a Binary tree, find the largest BST subtree. That is, you need to find the BST with maximum height in the given binary tree. You have to return the height of largest BST.
+
+Note :
+The binary tree will be consisting of only unique elements.
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints:
+1 ≤ Number of nodes ≤ 10^5
+1 ≤ Data of a node ≤ 10^6
+Time Limit: 1 second
+Sample Input 1:
+5 10 6 2 3 -1 -1 -1 -1 -1 9 -1 -1
+
+
+Sample Output 1:
+2
+
+
+/**********************************************************
+
+	Following is the Binary Tree Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public: 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this->data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+	
+***********************************************************/
+#include <climits>
+int height (BinaryTreeNode<int> * root)
+{
+	if(root==NULL)
+	{
+		return 0;
+	}
+	else
+	{
+		return 1+max(height(root->left),height(root->right));
+	}
+}
+int maxi(BinaryTreeNode <int>*root,int y)
+{
+	if(root==NULL)
+	{
+		return y;
+	}
+	if(root->data > y)
+	{
+		return maxi(root->right,root->data);
+	}
+	else
+	{
+		return maxi(root->right,y);
+	}
+}
+int mini(BinaryTreeNode<int> * root,int u)
+{
+if(root==NULL)
+	{
+		return u;
+	}
+	if(root->data < u)
+	{
+		return mini(root->left,root->data);
+	}
+	else
+	{
+		return mini(root->left,u);
+	}
+}
+bool checkBST(BinaryTreeNode<int>* root)
+{
+	if(root==NULL)
+	{
+		return true;
+	}
+	if(maxi(root->left,INT_MIN)< root->data && mini(root->right,INT_MAX) > root->data )
+	{
+	 return (checkBST(root->left) && checkBST(root->right));
+	}
+	else
+	{
+		return false;
+	}
+
+}
+int largestBSTSubtree(BinaryTreeNode<int> *root) {
+    // Write your code here
+	if(root==NULL)
+	{
+		return 0;
+	}
+	bool u= checkBST(root);
+	if(u==true)
+	{
+		return height(root);
+	}
+	else
+	{
+		return (max(largestBSTSubtree(root->left),largestBSTSubtree(root->right)));
+		/*
+		if(checkBST(root->left) && checkBST(root->right))
+		{
+			return max(height(root->left),height(root->right));
+		}
+		else if(checkBST(root->left))
+		{
+			return max
+		}
+		*/
+	}
+}
