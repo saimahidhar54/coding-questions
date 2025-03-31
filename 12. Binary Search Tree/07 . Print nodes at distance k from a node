@@ -1,0 +1,156 @@
+Problem statement
+You are given a Binary Tree of type integer, a integer value of target node's data, and an integer value K.
+
+Print the data of all nodes that have a distance K from the target node. The order in which they would be printed will not matter.
+
+Example:
+For a given input tree(refer to the image below):
+1. Target Node: 5
+2. K = 2
+alt txt
+
+Starting from the target node 5, the nodes at distance K are 7 4 and 1.
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints:
+1 <= N <= 10^5
+Where N is the total number of nodes in the binary tree.
+1 ≤ data of node ≤ 10^9
+1 ≤ target ≤ 10^9
+
+Time Limit: 1 sec
+Sample Input 1:
+5 6 10 2 3 -1 -1 -1 -1 -1 9 -1 -1
+3 1
+Sample Output 1:
+9
+6
+Sample Input 2:
+1 2 3 4 5 6 7 -1 -1 -1 -1 -1 -1 -1 -1
+3 3
+Sample Output 2:
+4
+5
+
+
+/**********************************************************
+
+        Following is the Binary Tree Node class structure
+
+        template <typename T>
+        class BinaryTreeNode {
+        public :
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+                this -> data = data;
+                left = NULL;
+                right = NULL;
+        }
+        };
+
+***********************************************************/
+#include <climits>
+int sarchu(BinaryTreeNode<int> * root,int node)
+{
+        if(root==NULL)
+        {
+                        return -214748364;
+        }
+        if(root->data==node)
+        {
+                return 0;
+        }
+        int v=1+ sarchu(root->left,node);
+        if(v<0)
+        {
+             //   cout << (1+sarchu(root->right,node));
+                return 1+sarchu(root->right,node);
+        }
+        else{
+return v;
+        }
+}
+void printnode(BinaryTreeNode<int> * root,int q )
+{
+        if(root==NULL)
+        {
+                return;
+        }
+        if(q==0)
+        {
+                cout << root->data<<endl;
+        }
+        else
+        {
+                printnode(root->left,q-1);
+                printnode(root->right,q-1);
+        }
+}
+void nodesAtDistanceK(BinaryTreeNode<int> *root, int node, int k) {
+    // Write your code herez
+    if(root==NULL)
+    {
+            return;
+    }
+    if(root->data==node)
+    {
+            printnode(root->left,k-1);
+            printnode(root->right,k-1);
+            return;
+    }
+    int v =1+sarchu(root->left,node);
+   // cout << v;
+    int g=k-v;
+   // cout << g;
+    if(g>0 && v>=0)
+    {
+           // cout << 1;
+            printnode(root->right,g-1);
+            nodesAtDistanceK(root->left, node,k);
+
+            return;
+    }
+    else if(g==0)
+    {
+          //  cout << 2;
+            cout << root->data<<endl;
+            nodesAtDistanceK(root->left,node,k);
+            return;
+    }
+    else if(g<0)
+    {
+           // cout << 3;
+            nodesAtDistanceK(root->left,node,k);
+            return;
+    }
+    else if(v<0)
+    {
+            int b=1+sarchu(root->right,node);
+            int f=k-b;
+          //  cout << f;
+            if(f>0 && b>=0)
+            {
+                    printnode(root->left,f-1);
+                    nodesAtDistanceK(root->right,node,k);
+                    return;
+            }
+            else if(f==0)
+            {
+                    cout << root->data<< endl;
+                    nodesAtDistanceK( root->right,node, k);
+                    return;
+            }
+            else if(f<0)
+            {
+                    nodesAtDistanceK(root->right,node,k);
+                    return;
+            }
+            else if(b<0)
+            {
+                    return;
+            }
+    }
+
+}
