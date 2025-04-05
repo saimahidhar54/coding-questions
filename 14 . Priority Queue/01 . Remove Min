@@ -1,0 +1,89 @@
+Problem statement
+Implement the function RemoveMin for the min priority queue class.
+
+For a minimum priority queue, write the function for removing the minimum element present. Remove and return the minimum element.
+
+Note : main function is given for your reference which we are using internally to test the code.
+
+
+#include <vector>
+
+class PriorityQueue {
+    vector<int> pq;
+
+   public:
+    bool isEmpty() { 
+        return pq.size() == 0; 
+    }
+
+    int getSize() { 
+        return pq.size(); 
+    }
+
+    int getMin() {
+        if (isEmpty()) {
+            return 0;
+        }
+
+        return pq[0];
+    }
+
+    void insert(int element) {
+        pq.push_back(element);
+
+        int childIndex = pq.size() - 1;
+
+        while (childIndex > 0) {
+            int parentIndex = (childIndex - 1) / 2;
+
+            if (pq[childIndex] < pq[parentIndex]) {
+                int temp = pq[childIndex];
+                pq[childIndex] = pq[parentIndex];
+                pq[parentIndex] = temp;
+            } else {
+                break;
+            }
+
+            childIndex = parentIndex;
+        }
+    }
+
+    int removeMin() {
+        // Write your code here
+        int ans= pq[0];
+        pq[0]=pq[pq.size()-1];
+        pq.pop_back();
+        int pi=0;
+        while(pi<pq.size())
+        {
+            int left=(2*pi)+1;
+            int right=left+1;
+            if(left < pq.size() && right < pq.size())
+            {
+            if(pq[left] < pq[right] && pq[left] < pq[pi] )
+            {
+                    int temp = pq[pi];
+                    pq[pi]=pq[left];
+                    pq[left]=temp;
+                    pi=left;
+            }
+            else if(pq[right] <= pq[left] && pq[right] < pq[pi] )
+            {
+                    int temp = pq[pi];
+                    pq[pi]=pq[right];
+                    pq[right]=temp;
+                    pi=right;
+            }
+            else
+            {
+                break;
+            }
+            }
+            else
+            {
+                break;
+            }
+        }
+        return ans;
+    }
+};
