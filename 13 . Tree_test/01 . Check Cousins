@@ -1,0 +1,73 @@
+Problem statement
+Given the binary Tree and two nodes say ‘p’ and ‘q’. Determine whether the two nodes are cousins of each other or not. Two nodes are said to be cousins of each other if they are at same level of the Binary Tree and have different parents.
+
+Do it in O(n).
+
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints :
+1 <= N <= 10^5
+
+Sample Input :
+5 6 10 2 3 4 -1 -1 -1 -1 9 -1 -1 -1 -1
+2
+4
+Sample Output :
+true
+Input Graph
+
+
+int sarchu(BinaryTreeNode<int> * root,int k)
+{
+    if(root==NULL)
+    {
+        return -99999;
+    }
+    if(root->data==k)
+    {
+        return 0;
+    }
+    int g=1+ sarchu(root->left,k);
+    if(g<0)
+    {
+        return (1+sarchu(root->right,k));
+    }
+    else
+    {
+        return g;
+    }
+}
+bool fullcheck(BinaryTreeNode<int> *root,int p,int q,int z)
+{
+    if(root==NULL)
+    {
+        return true;
+    }
+    if(z==1)
+    {
+        if(sarchu(root,p)==1 && sarchu(root,q)==1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    else
+    {
+        return (fullcheck(root->left,p,q,z-1) && fullcheck(root->right,p,q,z-1));
+    }
+}
+bool isCousin(BinaryTreeNode<int> *root, int p, int q) {
+    // Write your code here
+    int z =sarchu(root,p);
+    int e=sarchu(root,q);
+    if(z==e && z!=1)
+    {
+       return fullcheck(root,p,q,z);
+    }
+    else
+    {
+        return false;
+    }
+}
