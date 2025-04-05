@@ -1,0 +1,130 @@
+Problem statement
+Implement the class for Max Priority Queue which includes following functions -
+
+
+
+1. getSize -
+Return the size of priority queue i.e. number of elements present in the priority queue.
+
+
+
+2. isEmpty -
+Check if priority queue is empty or not. Return true or false accordingly.
+
+
+
+3. insert -
+Given an element, insert that element in the priority queue at the correct position.
+
+
+
+4. getMax -
+Return the maximum element present in the priority queue without deleting. Return -Infinity if priority queue is empty.
+
+
+
+5. removeMax -
+Delete and return the maximum element present in the priority queue. Return -Infinity if priority queue is empty.
+
+
+
+Note : main function is given for your reference which we are using internally to test the class.
+
+
+#include <climits>
+#include <vector>
+
+class PriorityQueue {
+    // Declare the data members here
+    vector <int> pq;
+
+   public:
+    PriorityQueue() {
+        // Implement the constructor here
+    }
+
+    /**************** Implement all the public functions here ***************/
+
+    void insert(int element) {
+        // Implement the insert() function here
+        pq.push_back(element);
+        int pi= (pq.size()-1)/2;
+        int c=pq.size()-1;
+        while(pi>=0)
+        {
+            if(pq[c] > pq[pi])
+            {
+                int temp= pq[c];
+                pq[c]=pq[pi];
+                pq[pi]=temp;
+            }
+            else
+            {
+                break;
+            }
+            c=pi;
+            pi=(c-1)/2;
+        }
+    }
+
+    int getMax() {
+        // Implement the getMax() function here
+        if(pq.size()==0)
+        {
+            return INT_MIN;
+        }
+        return pq[0];
+    }
+
+    int removeMax() {
+        // Implement the removeMax() function here
+        if(pq.size()==0)
+        {
+            return INT_MIN;
+        }
+        int ans = pq[0];
+        pq[0]=pq[pq.size()-1];
+        pq.pop_back();
+        int c=0;
+        while(c< pq.size())
+        {
+            int left=(2*c)+1;
+            int right=left+1;
+            if(right < pq.size())
+            {
+                if(pq[left]>pq[right] && pq[left]>pq[c])
+                {
+                  int temp = pq[c];
+                  pq[c] = pq[left];
+                  pq[left] = temp;
+                  c=left;
+                }
+                else if(pq[right]>=pq[left] && pq[right]>pq[c])
+                {
+                  int temp = pq[c];
+                  pq[c] = pq[right];
+                  pq[right] = temp;
+                  c = right;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else{
+                break;
+            }
+        }
+        return ans;
+    }
+
+    int getSize() { 
+        // Implement the getSize() function here
+        return pq.size();
+    }
+
+    bool isEmpty() {
+        // Implement the isEmpty() function here
+        return pq.size()==0;
+    }
+};
