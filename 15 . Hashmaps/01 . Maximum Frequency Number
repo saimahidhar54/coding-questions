@@ -21,3 +21,26 @@ Explanation:
 Here, both element '2' and element '4' have same frequency but '2' ocurr first in orignal array that's why we are returning '2' as output. 
 
 
+#include <unordered_map>
+#include <climits>
+int highestFrequency(int arr[], int n) {
+    // Write your code here
+    unordered_map<int, int> m;
+    int max=INT_MIN;
+    int y=-1;
+    for(int i=0;i<n;i++)
+    {
+       m[arr[i]]++;
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(m[arr[i]]>max)
+        {
+            max= m[arr[i]];
+            y=arr[i];
+        }
+    }
+    return y;
+}
+
+
