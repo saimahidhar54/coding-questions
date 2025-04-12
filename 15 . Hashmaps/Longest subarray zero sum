@@ -1,0 +1,65 @@
+Problem statement
+Given an array consisting of positive and negative integers, find the length of the longest subarray whose sum is zero.
+
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints:
+0 <= N <= 10^8
+Time Limit: 1 sec
+Sample Input 1:
+10 
+ 95 -97 -387 -435 -5 -70 897 127 23 284
+Sample Output 1:
+5
+Explanation:
+The five elements that form the longest subarray that sum up to zero are: -387, -435, -5, -70, 897 
+Note
+You don't have to print anything. Just complete the definition of the function given and return the value accordingly.
+
+
+
+#include <unordered_map>
+#include <climits>
+int lengthOfLongestSubsetWithZeroSum(int* arr, int n) {
+    // Write your code here
+    unordered_map <int,int> m;
+    int a[n]={0};
+    int snigdha=0;
+    for(int i=0;i<n;i++)
+    {
+        if(i==0)
+        {
+            m[arr[i]]=0;
+            a[0]=arr[i];
+            if(arr[i]==0)
+            {
+                snigdha=1;
+            }
+        }
+        else
+        {
+            int g= arr[i]+a[i-1];
+            if(m.count(g)>0 && g!=0)
+            {
+                if((i-m[g])>snigdha)
+                {
+                    snigdha=(i-m[g]);
+                }
+                a[i]=g;
+            }
+            else if(g==0)
+            {
+                    if((i+1)>snigdha)
+                    {
+                        snigdha=i+1;
+                    } 
+                    a[i]=g;
+            }
+            else
+            {
+                m[g]=i;
+                a[i]=g;
+            }
+        }
+    }
+    return snigdha;
+}
