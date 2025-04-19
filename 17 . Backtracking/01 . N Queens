@@ -1,0 +1,120 @@
+Problem statement
+You are given 'N', and for a given 'N x N' chessboard. Find a configuration of 'N' queens such that no queen can attack any other queen on the chess board.
+
+
+
+A queen can be killed when it lies in the same row, or same column, or the same diagonal of any of the other queens. You have to return all such configurations.
+
+
+
+Note:
+If no such configuration is present return an empty array, it will be represented as 'No Configuration' in the output.
+For Example:
+For a chessboard of size 4*4
+The configurations are 
+alt text
+
+Detailed explanation ( Input/output format, Notes, Images )
+Sample Input 1:
+4
+Sample Output 1 :
+0 1 0 0 0 0 0 1 1 0 0 0 0 0 1 0 
+0 0 1 0 1 0 0 0 0 0 0 1 0 1 0 0 
+Explanation:
+The first and second configuration are shown in the image above in example.
+Sample Input 2:
+3
+Sample Output 2 :
+'No Configuration'
+Constraints :
+1 <= N <= 10
+Time Limit: 1 second
+
+
+#include<bits/stdc++.h>
+using namespace std;
+void findQueen(int board[10][10],int n,int row)
+{
+    if(row == n)
+    {
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+             //   cout << board[i][j]<< " ";
+                if(board[i][j]!=1)
+                {
+                    cout << 0<<" ";
+                }
+                else
+                {
+                    cout << 1 << " ";
+                }
+            }
+        }
+        cout << endl;
+        return;
+    }
+    int i=row;
+    for(int j=0;j<n;j++)
+    {
+
+        if(board[i][j]!=0)
+        {
+            continue;
+        }
+        else
+        {
+            board[i][j]=1;
+            int f=1;
+            for(int q=i+1;q<n;q++)
+            {
+                if(board[q][j]==0)
+                {
+                board[q][j]=(row+2);
+                }
+                if((f+j)<n && board[q][f+j]==0)
+                {
+                    board[q][f+j]=(row+2);
+                }
+                if((j-f)>=0 && board[q][j-f]==0)
+                {
+                    board[q][j-f]=(row+2);
+                }
+                f++;
+            }
+            findQueen(board,n,row+1);
+    for(int a=row;a<n;a++)
+    {
+        for(int j=0;j<n;j++)
+        {
+                    if(board[a][j]==1)
+                    {
+                        board[a][j]=0;
+                    }
+            if(board[a][j]==(row+2) )
+            {
+                board[a][j]=0;
+            }
+            }
+        }
+        }
+    }
+    return;
+}
+int main(){
+    
+    // write your code here
+    int n;
+    cin >> n;
+    int arr[n][10]={0};
+    if(n==1)
+    {
+        cout << 1<<" "<< endl;
+    }
+    if(n>3)
+    {
+    findQueen(arr,n,0);
+    }
+    return 0;
+}
