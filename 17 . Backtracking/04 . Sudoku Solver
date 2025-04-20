@@ -1,0 +1,145 @@
+Problem statement
+Coding Ninjas has provided you a 9*9 sudoku board. The board contains non zero and zero values. Non zero values lie in the range: [1, 9]. Cells with zero value indicate that the particular cell is empty and can be replaced by non zero values.
+
+You need to find out whether the sudoku board can be solved. If the sudoku board can be solved, then print true, otherwise print false.
+
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints:
+The cell values lie in the range: [0, 9]
+Time Limit: 1 second 
+Note:
+Input are given in a way that backtracking solution will work in the provided time limit.
+Sample Input 1:
+9 0 0 0 2 0 7 5 0 
+6 0 0 0 5 0 0 4 0 
+0 2 0 4 0 0 0 1 0 
+2 0 8 0 0 0 0 0 0 
+0 7 0 5 0 9 0 6 0 
+0 0 0 0 0 0 4 0 1 
+0 1 0 0 0 5 0 8 0 
+0 9 0 0 7 0 0 0 4 
+0 8 2 0 4 0 0 0 6
+Sample Output 1:
+true
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+bool isValidHorizontal(int arr[9][9],int i,int j)
+{
+    int s=j-1;
+    int f=j+1;
+    if(s!=-1)
+    {
+        for(;s>=0;s--)
+        {
+            if(arr[i][j]==arr[i][s])
+            {
+                return false;
+            }
+        }
+    }
+    if(f!=9)
+    {
+        for(;f<9;f++)
+        {
+            if(arr[i][j]==arr[i][f])
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+bool isValidVertical(int arr[9][9],int i,int j)
+{
+     int s=i-1;
+    int f=i+1;
+    if(s!=-1)
+    {
+        for(;s>=0;s--)
+        {
+            if(arr[i][j]==arr[s][j])
+            {
+                return false;
+            }
+        }
+    }
+    if(f!=9)
+    {
+        for(;f<9;f++)
+        {
+            if(arr[i][j]==arr[f][j])
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+bool isValidbox(int arr[9][9],int i,int j)
+{
+    int count=0;
+   int r=i-(i%3);
+   int w=j-(j%3);
+    for(int e=0;e<3;e++)
+    {
+        for(int d=0;d<3;d++)
+        {
+            if(arr[e+r][d+w]==arr[i][j])
+            {
+                count++;
+            }
+        }
+    }
+    if(count==1)
+    {
+        return true;
+    }
+    return false;
+}
+bool solver(int arr[9][9])
+{
+     for(int i=0;i<9;i++)
+    {
+        for(int j=0;j<9;j++)
+        {
+            if(arr[i][j]==0)
+            {
+                for(int z=1;z<10;z++)
+                {
+                    arr[i][j]=z;
+                   if(isValidHorizontal(arr,i,j) && isValidVertical(arr,i,j) && isValidbox(arr,i,j) && solver(arr))
+                   {
+                         return true;
+                   }
+                }
+                arr[i][j]=0;
+                return false;
+            }
+        }
+    }
+    return true;
+}
+int main(){
+    int arr[9][9]={0};
+    for(int i=0;i<9;i++)
+    {
+        for(int j=0;j<9;j++)
+        {
+            cin >> arr[i][j];
+        }
+    }
+    bool k=solver(arr);
+    if(k)
+    {
+        cout << "true";
+    }
+    else
+    {
+        cout << "false";
+    }
+    // write your code here
+    return 0;
+}
