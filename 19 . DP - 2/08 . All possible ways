@@ -1,0 +1,88 @@
+Problem statement
+Given two integers a and b. You need to find and return the count of possible ways in which we can represent the number a as the sum of unique integers raise to the power b.
+
+For example: if a = 10 and b = 2, only way to represent 10 as sum of unique integers raised to power 2 is-
+
+10 = 1^2 + 3^2 
+Hence, answer is 1.
+
+Note : x^y represents x raise to the power y
+
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints :
+1 <= a <= 10^4
+1 < b <= 20
+Time Limit: 1 second
+Sample Input 1 :
+10 2
+Sample Output 1 :
+1
+Sample Input 2 :
+100 2
+Sample Output 2 :
+3
+Explanation:
+Following are the three ways: 
+1. 100 = 10^2
+2. 100 = 8^2 + 6^2
+3. 100 = 7^2+5^2+4^2+3^2+1^2
+
+
+
+#include <bits/stdc++.h>
+int gethelp(int a,int b , int z,int k)
+{
+	if(a==0)
+	{
+		return 1;
+	}
+	if(k==z )
+	{
+		return 0;
+	}
+	return (gethelp(a-((int)pow(k,b)),b,z,k+1)+gethelp(a,b,z,k+1));
+
+}
+int getAllWays(int a, int b) {
+	// Write your code here
+	//cout << a<< b;
+	int z=(int)pow(a,(1.0/b));
+	//cout << z;
+	z++;
+	int **qw=new int*[z+1];
+	for(int i=0;i<=z;i++)
+	{
+		qw[i]=new int[a+1];
+	}
+	for(int j=0;j<=a;j++)
+	{
+		qw[z][j]=0;
+	}
+	for(int i=0;i<=z;i++)
+	{
+		qw[i][0]=1;
+	}
+	for(int i=(z-1);i>=1;i--)
+	{
+		for(int j=1;j<=a;j++)
+		{
+			qw[i][j]=qw[i+1][j];
+			int f=j-(int)pow(i,b);
+			if(f>=0)
+			{
+				qw[i][j]+=qw[i+1][f];
+			}
+		}
+	}
+	/*for(int i=0;i<=z;i++)
+	{
+		for(int j=0;j<=a;j++)
+		{
+			cout << qw[i][j]<<" ";
+
+		}
+		cout << endl;
+	}*/
+return qw[1][a];
+//	return gethelp(a,b,z,1);
+}
