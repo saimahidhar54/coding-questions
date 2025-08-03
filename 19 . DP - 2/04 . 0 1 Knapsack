@@ -1,0 +1,48 @@
+Problem statement
+A thief robbing a store can carry a maximal weight of W into his knapsack. There are N items, and i-th item weigh 'Wi' and the value being 'Vi.' What would be the maximum value V, that the thief can steal?
+
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints :
+1 <= N <= 20
+1<= Wi <= 100
+1 <= Vi <= 100
+
+Time Limit: 1 sec
+Sample Input 1 :
+4
+1 2 4 5
+5 4 8 6
+5
+Sample Output 1 :
+13
+Sample Input 2 :
+5
+12 7 11 8 9
+24 13 23 15 16
+26
+Sample Output 2 :
+51
+
+
+int knap(int *weights,int *values,int n,int maxWeight,int totalVal)
+{
+	if(n==0)
+	{
+		return totalVal;
+	}
+	int z = knap(weights+1,values+1,n-1,maxWeight,totalVal);
+	if(maxWeight-weights[0]>=0)
+	{
+		int y=knap(weights+1,values+1,n-1,maxWeight-weights[0],totalVal+values[0]);
+		if(y>z)
+		{
+			z=y;
+		}
+	}
+	return z;
+}
+int knapsack(int *weights, int *values, int n, int maxWeight)
+{
+	//write your code here
+return	knap(weights,values,n,maxWeight,0);
+}
