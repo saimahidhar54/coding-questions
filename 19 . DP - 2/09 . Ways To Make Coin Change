@@ -1,0 +1,110 @@
+Problem statement
+For the given infinite supply of coins of each of denominations, D = {D0, D1, D2, D3, ...... Dn-1}. You need to figure out the total number of ways W, in which you can make the change for Value V using coins of denominations D.
+
+Return 0 if the change isn't possible.
+
+Detailed explanation ( Input/output format, Notes, Images )
+Sample Input 1 :
+3
+1 2 3
+4
+Sample Output 1 :
+4
+Explanation to Sample Input 1 :
+Number of ways are - 4 total i.e. (1,1,1,1), (1,1, 2), (1, 3) and (2, 2).
+Sample Input 2 :
+6
+1 2 3 4 5 6
+250
+Sample Output 2 :
+13868903
+
+
+
+#include <algorithm>
+int countWaysToMakeChange1(int denominations[], int numDenominations, int value){
+	//Write your code here
+        if(value <0 || numDenominations<=0)
+	{
+		return 0;
+
+	}
+        if (value == denominations[0]) {
+          return 1;
+        }
+        int sum=0;
+        for (int i = 0; i < numDenominations; i++) {
+          sum += countWaysToMakeChange1(denominations + i, numDenominations - i,
+                                        value - denominations[0]);
+          //    sum += countWaysToMakeChange(denominations + i, numDenominations
+          //    - i, value);
+        }
+        return sum; // countWaysToMakeChange(denominations+1,numDenominations-1,value);
+}
+int countWaysToMakeChange(int denominations[], int numDenominations, int value)
+{
+
+/*int sum1=0;
+for(int i=0;i<numDenominations;i++)
+{
+	sum1+=countWaysToMakeChange1(denominations+i,numDenominations-i,value);
+}
+return sum1;
+*/
+//cout << 6;
+sort(denominations,denominations+numDenominations);
+int n=numDenominations;
+//numDenominations=denominations[n-1];
+int **a=new int*[denominations[n-1]+2];
+for(int i=0;i<=(denominations[n-1]+1);i++)
+{
+	a[i]=new int[value+1];
+}
+for(int j=0;j<=value;j++)
+{
+	a[denominations[n-1]+1][j]=0;
+}
+for(int i=0;i<=(denominations[n-1]+1);i++)
+{
+	a[i][i]=1;
+}
+//cout << 6;
+for(int i=n-1;i>=0;i--)
+{
+	for(int j=1;j<=value;j++)
+	{
+		if((j-denominations[i])>=0)
+		{
+                  for (int v = i; v < numDenominations; v++) {
+                    // cout << 6;
+                    a[denominations[i]][j] += a[denominations[v]][j - denominations[i]];
+                  }
+                } 
+				else {
+                  a[denominations[i]][j] = 0;
+                }
+        }
+}
+int y=0;
+for(int j=1;j<=value;j++)
+{
+  if ((j) >= 0) {
+    for (int v = 0; v < numDenominations; v++) {
+      // cout << 6;
+      a[0][j] += a[denominations[v]][j];
+    }
+  } else {
+    a[0][j] = 0;
+  }
+}
+/*for(int i=0;i<(denominations[n-1]+2);i++)
+{
+  for(int j=0;j<(value+1);j++)
+  {
+    cout << a[i][j]<<" ";
+  }
+  cout << endl;
+}*/
+return (a[0][value]);
+
+}
