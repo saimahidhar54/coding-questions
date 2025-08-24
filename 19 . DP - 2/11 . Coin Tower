@@ -1,0 +1,99 @@
+Problem statement
+Whis and Beerus are playing a new game today. They form a tower of N coins and make a move in alternate turns. Beerus plays first. In one step, the player can remove either 1, X, or Y coins from the tower. The person to make the last move wins the game. Can you find out who wins the game?
+
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints :
+1 <= N <= 10 ^ 6
+2 <= X <= Y<= 50
+
+Time Limit: 1 sec
+Sample Input 1 :
+4 2 3
+Sample Output 1 :
+Whis
+Sample Input 2 :
+10 2 4
+Sample Output 2 :
+Beerus
+Explanation to Sample Input 1:
+Initially, there are 4 coins,  In the first move, Beerus can remove either 1, 2, or 3 coins in all three cases, Whis can win by removing all the remaining coins. 
+
+
+string findWinner(int n, int x, int y)
+{
+	// Write your code here .
+	int arr[1000001];
+	arr[0]=0;
+	for(int i=1;i<=n;i++)
+	{
+          if (i >= 1) {
+            if ((i >= (x + 1) && arr[i - x - 1] == 0) ||
+               ( i >= (1 + 1) && arr[i - 1 - 1] == 0) ||
+                (i >= (y + 1) && arr[i - y - 1] == 0)) {
+              arr[i] = 0;
+            }
+			else
+			{
+				arr[i]=1;
+				continue;
+			}
+          }
+          if (i >= x) {
+            if ((i >= (x + x) && arr[i - x - x] == 0) ||
+                (i >= (1 + x) && arr[i - 1 - x] == 0) ||
+                (i >= (y + x) && arr[i - y - x] == 0)) {
+              arr[i] = 0;
+            } else {
+              arr[i] = 1;
+			  continue;
+            }
+          }
+          if (i >= y) {
+            if ((i >= (x + y) && arr[i - x - y] == 0) ||
+                (i >= (1 + y) && arr[i - 1 - y] == 0) ||
+                (i >= (y + y) && arr[i - y - y] == 0)) {
+              arr[i] = 0;
+            } else {
+              arr[i] = 1;
+			  continue;
+            }
+          }
+
+        }
+		//for(int i=0;i<=n;i++)
+		//cout << arr[i]<< " ";
+		if(arr[n]==1)
+		{
+			return "Beerus";
+		}
+		else
+		{
+			return "Whis";
+		}
+	/*if(n<0)
+	{
+		return "Beerus";
+	}
+	if(n==0)
+	{
+		return "Whis";
+	}
+	if((n-1)==0 || (n-x)==0 || (n-y)==0)
+	{
+		string z="Beerus";
+		return z;
+	}
+        if ((findWinner(n - 2, x, y) == "Beerus" &&
+             findWinner(n - 1 - x, x, y) == "Beerus" &&
+             findWinner(n - 1 - y, x, y) == "Beerus") ||
+            (findWinner(n - x - x, x, y) == "Beerus" &&
+             findWinner(n - x - y, x, y) == "Beerus" &&
+             findWinner(n - 1 - x, x, y) == "Beerus") ||
+            (findWinner(n - y - y, x, y) == "Beerus" &&
+             findWinner(n - x - y, x, y) == "Beerus" &&
+             findWinner(n - 1 - y, x, y) == "Beerus")) {
+          return "Beerus";
+        }
+                                return "Whis";
+								*/
+}
