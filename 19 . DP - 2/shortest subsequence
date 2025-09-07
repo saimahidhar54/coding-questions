@@ -1,0 +1,137 @@
+Problem statement
+Gary has two string S and V. Now, Gary wants to know the length shortest subsequence in S, which is not a subsequence in V.
+
+Note: The input data will be such that there will always be a solution.
+
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints:
+1 <= |S| <= 1000 (|x| implies the length of the string x)
+1 <= |V| <= 1000 
+Time Limit: 1 second
+Sample Input 1:
+babab
+babba
+Sample Output 1:
+3
+Explanation:
+"aab" is the shortest subsequence which is present in S and absent in V.
+
+
+#include <climits>
+int solve1(string s, string v,int **arr) {
+    // Write your code here
+    int sl=s.length(),vl=v.length();
+    if(arr[sl][vl]!=-1)
+    {
+        //cout << 97;
+        return arr[sl][vl];
+    }
+if(sl==0)
+{
+    arr[sl][vl]=1001;
+    return 1001;
+}
+    int k=-5;
+    for(int i=0;i<vl;i++)
+    {
+        if(v[i]==s[0])
+        {
+            k=i;
+            break;
+        }
+    }
+    if(k==-5)
+    {
+        arr[sl][vl]=1;
+        return 1;
+    }
+    int option1=solve1(s.substr(1),v,arr);
+    int option2=1+solve1(s.substr(1),v.substr(k+1),arr);
+    if(option1 > option2)
+    {
+        arr[sl][vl]=option2;
+    }
+    else
+    {
+        arr[sl][vl]=option1;
+    }
+  // arr[sl][vl]= min(solve1(s.substr(1),v,arr),1+solve1(s.substr(1),v.substr(k+1),arr));
+   return arr[sl][vl];
+}
+int solve(string s,string v)
+{
+    int sl1=s.length(),vl1=v.length();
+    int **arr=new int *[sl1+1];
+    for(int i=0;i<=sl1;i++)
+    {
+        arr[i]=new int[vl1+1];
+    }
+
+    for(int i=0;i<=sl1;i++)
+    {
+        for(int j=0;j<=vl1;j++)
+        {
+            arr[i][j]=-1;
+        }
+    }
+    for(int i=1;i<=sl1;i++)
+    {
+        arr[i][0]=1;
+    }
+    for(int j=1;j<=vl1;j++)
+    {
+        arr[0][j]=1001;
+    }
+    for(int i=1;i<=sl1;i++)
+    {
+        for(int j=1;j<=vl1;j++)
+        {
+             int k=-5;
+
+            for(int t=0;t<j;t++)
+             {
+                if(v[t+vl1-j]==s[sl1-i])
+                {
+                    k=t;
+                    break;
+                }
+             }
+             if(k==-5)
+             {
+                 arr[i][j]=1;
+                    continue;
+                }
+            int option1=arr[i-1][j];
+            int option2=1+arr[i-1][j-k-1];
+            if(option1>option2)
+            {
+                arr[i][j]=option2;
+            }
+            else
+            {
+                arr[i][j]=option1;
+            }
+
+        }
+    }
+   /* for(int i=0;i<=s.length();i++)
+    {
+        for(int j=0;j<=v.length();j++)
+        {
+            cout << arr[i][j]<<" ";
+        }
+        cout << endl;
+    }*/
+    return arr[sl1][vl1];
+   // int d= solve1(s,v,arr);
+   /* for(int i=0;i<=s.length();i++)
+    {
+        for(int j=0;j<=v.length();j++)
+        {
+            cout << arr[i][j]<<" ";
+        }
+        cout << endl;
+    }
+    */
+  //  return d;
+}
