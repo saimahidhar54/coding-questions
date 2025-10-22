@@ -1,0 +1,68 @@
+Problem statement
+An island is a small piece of land surrounded by water . A group of islands is said to be connected if we can reach from any given island to any other island in the same group . Given V islands (numbered from 0 to V-1) and E connections or edges between islands. Can you count the number of connected groups of islands.
+
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints :
+0 <= V <= 1000
+0 <= E <= (V * (V-1)) / 2
+0 <= a <= V - 1
+0 <= b <= V - 1
+Time Limit: 1 second
+Sample Input 1:
+5 8
+0 1
+0 4
+1 2
+2 0
+2 4
+3 0
+3 2
+4 3
+Sample Output 1:
+1 
+
+
+
+#include <iostream>
+using namespace std;
+void dfs(int arr[1000][1000],int visited[1000],int v,int s)
+{
+    visited[s]=1;
+    for(int i=0;i<v;i++)
+    {
+        if(visited[i]==0 && arr[s][i]==1)
+        {
+            dfs(arr,visited,v,i);
+        }
+    }
+}
+int main() {
+    // Write your code here
+    int v,e,j,k;
+    cin >> v>>e;
+    if(v==0)
+    {
+        cout << 0;
+        return 0;
+    }
+    int arr[1000][1000]={0};
+    for(int i=0;i<e;i++)
+    {
+        cin >> j>>k;
+        arr[j][k]=1;
+        arr[k][j]=1;
+    }
+    int visited[1000]={0};
+    int count=0;
+    dfs(arr,visited,v,0);
+    count=1;
+    for(int i=0;i<v;i++)
+    {
+      if (visited[i] == 0) {
+        count++;
+        dfs(arr, visited, v, i);
+      }
+    }
+    if(v)
+    cout << count;
+    }
