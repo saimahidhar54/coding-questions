@@ -1,0 +1,127 @@
+Problem statement
+Given an undirected, connected and weighted graph G(V, E) with V number of vertices (which are numbered from 0 to V-1) and E number of edges.
+
+Find and print the Minimum Spanning Tree (MST) using Kruskal's algorithm.
+
+For printing MST follow the steps -
+
+1. In one line, print an edge which is part of MST in the format - 
+v1 v2 w
+where, v1 and v2 are the vertices of the edge which is included in MST and whose weight is w. And v1  <= v2 i.e. print the smaller vertex first while printing an edge.
+2. Print V-1 edges in above format in different lines.
+Note : Order of different edges doesn't matter.
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints :
+2 <= V, E <= 10^5
+Time Limit: 1 sec
+Sample Input 1 :
+4 4
+0 1 3
+0 3 5
+1 2 1
+2 3 8
+Input Graph
+
+Sample Output 1 :
+1 2 1
+0 1 3
+0 3 5
+Input Graph
+
+
+#include <bits/stdc++.h>
+using namespace std;
+class Edge{
+    public:
+    int v1;
+    int v2;
+    int weight;
+};
+bool wht(Edge a,Edge b)
+{
+    return (a.weight < b.weight);
+}
+int main() {
+    // Write your code here
+    vector<Edge> edges;
+    int v,e,j,k;
+    cin >> v >> e;
+    if(v!=0)
+    {
+    for(int i=0;i<e;i++)
+    {
+        Edge esh;
+        cin >> esh.v1 >>esh.v2 >> esh.weight;
+        if(esh.v1 > esh.v2)
+        {
+            int temp=esh.v1;
+            esh.v1=esh.v2;
+            esh.v2=temp;
+        }
+        if(esh.v1!=esh.v2)
+       { edges.push_back(esh);}
+    }
+   // sort(edges.begin(),edges.end(),wht);
+   /* for(int i=0;i<edges.size();i++)
+    {
+        Edge qwe=edges[i];
+        cout << qwe.v1<<" "<<qwe.v2<<" "<<qwe.weight<<endl;
+    }
+    */
+    sort(edges.begin(),edges.end(),wht);
+    int *parent=new int[v];
+    for(int i=0;i<v;i++)
+    {
+        parent[i]=i;
+    }
+    int count=0,cv=0;
+
+    while(count < (v-1))
+    {
+      /*  cout << "parent:";
+        for(int mz=0;mz <v;mz++)
+        {
+            cout << parent[mz]<<" ";
+        }
+        cout << endl;
+        */
+        Edge bnc=edges[cv];
+        int v1r=bnc.v1;
+        int v2r=bnc.v2;
+        int p1r=v1r;
+        int prev=p1r;
+        p1r=parent[p1r];
+        while(prev!=p1r)
+        {
+            prev=p1r;
+            p1r=parent[p1r];
+
+        }
+        
+        //cout << 11111;
+         int p2r=v2r;
+        prev=p2r;
+        p2r=parent[p2r];
+         if(v2r==3 && v1r==2)
+        {
+           // cout << "p2r:"<<p2r<<"prev:"<<prev<<endl;
+        }
+        while(prev!=p2r)
+        {
+            prev=p2r;
+            p2r=parent[p2r];
+        }
+        if(v2r==3 && v1r==2)
+        {
+            //cout << "p2r:"<<p2r<<endl;
+        }
+        if(p1r!=p2r)
+        {
+            parent[v2r]=p1r;
+            parent[p2r]=p1r;
+            cout << bnc.v1<<" "<<bnc.v2<<" "<< bnc.weight <<endl;
+            count++;
+        }
+        cv++;
+    }
+}}
